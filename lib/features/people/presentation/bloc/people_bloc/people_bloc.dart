@@ -15,6 +15,7 @@ class PeopleBloc extends Bloc<PeopleEvent, PeopleState> {
   final SearchPeople searchPeople;
   int page = 1;
   bool isFetching = false;
+  bool isSearch = false;
   List<Person> favoritePerson = [];
 
   PeopleBloc({required this.searchPeople}) : super(Empty()) {

@@ -2,69 +2,70 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sw_finder/features/people/domain/entities/person.dart';
-import 'package:sw_finder/features/people/presentation/bloc/people_bloc/people_bloc.dart';
 import 'package:sw_finder/core/utils/components/progress.dart';
-import 'package:sw_finder/features/people/presentation/widgets/loaded_list.dart';
 import 'package:sw_finder/core/utils/components/connection_error.dart';
 
-class PersonList extends StatefulWidget {
+import 'package:sw_finder/features/strarship/domain/entities/starship.dart';
+import 'package:sw_finder/features/strarship/presentation/bloc/starship_bloc/starship_bloc.dart';
+import 'package:sw_finder/features/strarship/presentation/widgets/starship_card.dart';
+
+class StarshipList extends StatefulWidget {
   final String? text;
-  const PersonList({super.key, required this.text});
+
+  const StarshipList({super.key, required this.text});
 
   @override
-  State<PersonList> createState() => _PersonListState();
+  State<StarshipList> createState() => _StarshipListState();
 }
 
-class _PersonListState extends State<PersonList> {
-  List<Person> personList = [];
+class _StarshipListState extends State<StarshipList> {
+  List<Starship> starshipList = [];
   final ScrollController _scrollController = ScrollController();
-  final TextEditingController _textEditingController = TextEditingController();
   Timer? searchDebounce;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocConsumer<PeopleBloc, PeopleState>(
+        BlocConsumer<StarshipBloc, StarshipState>(
           listener: (context, state) {
             if (state is Empty) {
               context
-                  .read<PeopleBloc>()
-                  .add(SearchPeopleBlocEvent(name: _textEditingController.text));
+                  .read<StarshipBloc>()
+                  .add(SearchStarshipBlocEvent(name: widget.text ?? ''));
             }
-            if (state is Loading && context.read<PeopleBloc>().isSearch) {
-              personList.clear();
+            if (state is Loading && context.read<StarshipBloc>().isSearch) {
+              starshipList.clear();
             }
-            if (state is Loading && !context.read<PeopleBloc>().isSearch && (widget.text?.isEmpty ?? true)) {
-              personList.clear();
+            if (state is Loading && !context.read<StarshipBloc>().isSearch && (widget.text?.isEmpty ?? true)) {
+              starshipList.clear();
             }
-            if (state is Loading && personList.isNotEmpty) {
+            if (state is Loading && starshipList.isNotEmpty) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text('loading...')));
-            } else if (state is Loaded && state.listOfPeople.isEmpty) {
+            } else if (state is Loaded && state.listOfStarship.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('People not find')));
+                  const SnackBar(content: Text('Starship not find')));
             }
           },
           builder: (context, state) {
-            if (state is Empty || state is Loading && personList.isEmpty) {
+            if (state is Empty || state is Loading && starshipList.isEmpty) {
               return const Progress();
             } else if (state is Loaded) {
-              personList.addAll(state.listOfPeople);
-              context.read<PeopleBloc>().isFetching = false;
+              starshipList.addAll(state.listOfStarship);
+              context.read<StarshipBloc>().isFetching = false;
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            } else if (state is Error && personList.isEmpty) {
+            } else if (state is Error && starshipList.isEmpty) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
                     onPressed: () {
-                      context.read<PeopleBloc>()
+                      context.read<StarshipBloc>()
                         ..isFetching = true
-                        ..add(SearchPeopleBlocEvent(
-                            name: _textEditingController.text));
+                        ..add(SearchStarshipBlocEvent(
+                            name: widget.text ?? ''));
                     },
                     icon: const Icon(Icons.refresh),
                   ),
@@ -81,17 +82,17 @@ class _PersonListState extends State<PersonList> {
                   ..addListener(() {
                     if (_scrollController.offset ==
                             _scrollController.position.maxScrollExtent &&
-                        !context.read<PeopleBloc>().isFetching) {
-                      context.read<PeopleBloc>()
+                        !context.read<StarshipBloc>().isFetching) {
+                      context.read<StarshipBloc>()
                         ..isFetching = true
-                        ..add(SearchPeopleBlocEvent(
-                            name: _textEditingController.text));
+                        ..add(SearchStarshipBlocEvent(
+                            name: widget.text ?? ''));
                     }
                   }),
-                itemBuilder: (context, index) => LoadedList(
-                  person: personList[index],
+                itemBuilder: (context, index) => LoadedCard(
+                  starship: starshipList[index],
                 ),
-                itemCount: personList.length,
+                itemCount: starshipList.length,
               ),
             );
           },
