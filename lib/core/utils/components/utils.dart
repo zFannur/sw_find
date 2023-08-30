@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -14,8 +13,6 @@ class Utils {
         MediaQuery.of(context).padding.left -
         MediaQuery.of(context).padding.right;
   }
-
-  Color randomColor() => Color(Random().nextInt(0xffffffff)).withAlpha(0xff);
 
   BorderRadius buildBorderRadius() {
     return const BorderRadius.all(Radius.circular(20));
@@ -35,4 +32,19 @@ class Utils {
     }
     return result;
   }
+
+  // Future<Widget> getFilms(List<String> list) {
+  //   String result = "";
+  //   if (list.isNotEmpty) {
+  //     for (var person in list) {
+  //       result = "$result${person
+  //           .toString()
+  //           .split("/")[person.toString().split("/").length - 2]},";
+  //     }
+  //     result = result.substring(0, (result.length) - 1).replaceAll(",", "\n");
+  //   } else {
+  //     result = " - ";
+  //   }
+  //   return result;
+  // }
 }

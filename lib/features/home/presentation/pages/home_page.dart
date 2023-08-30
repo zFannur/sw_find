@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sw_finder/features/navigation/navgation.dart';
+import 'package:sw_finder/features/people/presentation/bloc/people_bloc/people_bloc.dart';
 import 'package:sw_finder/features/people/presentation/pages/person_list.dart';
 import 'package:sw_finder/features/home/presentation/drawer/my_drawer.dart';
 import 'package:sw_finder/features/strarship/presentation/pages/starship_list.dart';
@@ -54,15 +55,25 @@ class _HomePageState extends State<HomePage> {
                 if (value.length >= 2) {
                   context.read<StarshipBloc>().page = 1;
                   context.read<StarshipBloc>().isSearch = true;
-                  //starshipList.clear();
                   context.read<StarshipBloc>().add(
                       SearchStarshipBlocEvent(name: _textEditingController.text));
+
+                  context.read<PeopleBloc>().page = 1;
+                  context.read<PeopleBloc>().isSearch = true;
+                  context.read<PeopleBloc>().add(
+                      SearchPeopleBlocEvent(name: _textEditingController.text));
                 } else if (value.isEmpty){
                   context.read<StarshipBloc>().page = 1;
                   context.read<StarshipBloc>().isSearch = false;
                   context
                       .read<StarshipBloc>()
                       .add(SearchStarshipBlocEvent(name: ''));
+
+                  context.read<PeopleBloc>().page = 1;
+                  context.read<PeopleBloc>().isSearch = false;
+                  context
+                      .read<PeopleBloc>()
+                      .add(SearchPeopleBlocEvent(name: ''));
                 }
               });
             },

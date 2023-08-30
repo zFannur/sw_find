@@ -37,7 +37,7 @@ class _StarshipListState extends State<StarshipList> {
             if (state is Loading && context.read<StarshipBloc>().isSearch) {
               starshipList.clear();
             }
-            if (state is Loading && !context.read<StarshipBloc>().isSearch && (widget.text?.isEmpty ?? true)) {
+            if (state is Loading && !context.read<StarshipBloc>().isSearch && (widget.text?.isEmpty ?? true) && context.read<StarshipBloc>().page == 1) {
               starshipList.clear();
             }
             if (state is Loading && starshipList.isNotEmpty) {

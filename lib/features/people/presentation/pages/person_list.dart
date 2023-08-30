@@ -36,7 +36,7 @@ class _PersonListState extends State<PersonList> {
             if (state is Loading && context.read<PeopleBloc>().isSearch) {
               personList.clear();
             }
-            if (state is Loading && !context.read<PeopleBloc>().isSearch && (widget.text?.isEmpty ?? true)) {
+            if (state is Loading && !context.read<PeopleBloc>().isSearch && (widget.text?.isEmpty ?? true) && context.read<PeopleBloc>().page == 1) {
               personList.clear();
             }
             if (state is Loading && personList.isNotEmpty) {
