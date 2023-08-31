@@ -7,8 +7,7 @@ import 'package:sw_finder/features/people/presentation/bloc/people_bloc/people_b
 import 'package:sw_finder/features/people/presentation/pages/person_list.dart';
 import 'package:sw_finder/features/home/presentation/drawer/my_drawer.dart';
 import 'package:sw_finder/features/strarship/presentation/pages/starship_list.dart';
-
-import '../../../strarship/presentation/bloc/starship_bloc/starship_bloc.dart';
+import 'package:sw_finder/features/strarship/presentation/bloc/starship_bloc/starship_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
